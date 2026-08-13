@@ -103,6 +103,7 @@ def _is_schedule_name_conflict(error: DuplicateKeyError) -> bool:
     details = error.details
     return isinstance(details, dict) and details.get("keyPattern") in (
         {"name": 1},
+        {"name": 1, "managed_by": 1},
         {"owner_actor_id": 1, "name": 1},
     )
 
@@ -146,6 +147,8 @@ def _detect_client_type(client: Any) -> str:
 
 
 class AsyncMongoDb(AsyncBaseDb):
+    supports_component_persistence = False
+    component_catalog_api_version = 1
     scheduler_api_version = 2
 
     # Client type constants (class-level access to module constants)
