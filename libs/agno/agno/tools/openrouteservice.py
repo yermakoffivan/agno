@@ -20,7 +20,7 @@ Note:
 """
 
 from os import getenv
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 try:
     import httpx
@@ -52,9 +52,9 @@ class OpenRouteServiceTools(Toolkit):
             `ORS_API_KEY` environment variable is used.
         base_url (str): Base URL for the OpenRouteService API.
         timeout (float): Per-request HTTP timeout in seconds. Default is 30.
-        enable_directions (bool): Enable the `get_directions` tool. Default is True.
-        enable_distance_matrix (bool): Enable the `get_distance_matrix` tool. Default is True.
-        enable_geocoding (bool): Enable the `geocode_location` tool. Default is True.
+        directions (bool): Enable the `get_directions` tool. Default is True.
+        distance_matrix (bool): Enable the `get_distance_matrix` tool. Default is True.
+        geocoding (bool): Enable the `geocode_location` tool. Default is True.
         all (bool): Enable all tools regardless of the individual flags. Default is False.
     """
 
@@ -63,9 +63,9 @@ class OpenRouteServiceTools(Toolkit):
         api_key: Optional[str] = None,
         base_url: str = "https://api.openrouteservice.org",
         timeout: float = 30.0,
-        enable_directions: bool = True,
-        enable_distance_matrix: bool = True,
-        enable_geocoding: bool = True,
+        directions: bool = True,
+        distance_matrix: bool = True,
+        geocoding: bool = True,
         all: bool = False,
         **kwargs,
     ):
@@ -81,16 +81,16 @@ class OpenRouteServiceTools(Toolkit):
 
         # sync tools: used by agent.run() and agent.print_response()
         # async tools: used by agent.arun() and agent.aprint_response()
-        tools: List[Any] = []
+        tools: List[Callable] = []
         async_tools: List[Tuple[Any, str]] = []
 
-        if all or enable_geocoding:
+        if all or geocoding:
             tools.append(self.geocode_location)
             async_tools.append((self.ageocode_location, "geocode_location"))
-        if all or enable_directions:
+        if all or directions:
             tools.append(self.get_directions)
             async_tools.append((self.aget_directions, "get_directions"))
-        if all or enable_distance_matrix:
+        if all or distance_matrix:
             tools.append(self.get_distance_matrix)
             async_tools.append((self.aget_distance_matrix, "get_distance_matrix"))
 
