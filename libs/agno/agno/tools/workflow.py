@@ -20,7 +20,7 @@ class WorkflowTools(Toolkit):
 
     Args:
         workflow: The Workflow instance to execute.
-        run_workflow: Enable run_workflow tool. Defaults to False (executes workflow).
+        run_workflow: Enable run_workflow tool. Defaults to True (the toolkit's primary purpose).
         think: Enable think tool for reasoning scratchpad. Defaults to False.
         analyze: Enable analyze tool for evaluating results. Defaults to False.
         all: Enable all tools. Defaults to False.
@@ -34,7 +34,7 @@ class WorkflowTools(Toolkit):
     def __init__(
         self,
         workflow: Workflow,
-        run_workflow: bool = False,
+        run_workflow: bool = True,
         think: bool = False,
         analyze: bool = False,
         all: bool = False,
