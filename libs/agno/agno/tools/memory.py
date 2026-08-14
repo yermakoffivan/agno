@@ -81,7 +81,6 @@ class MemoryTools(Toolkit):
         """Scratchpad for reasoning about memory operations.
 
         Args:
-            run_context: The run context (auto-injected).
             thought: Your thought process and reasoning about memory operations.
 
         Returns:
@@ -113,7 +112,6 @@ class MemoryTools(Toolkit):
         """Get all memories for the current user.
 
         Args:
-            run_context: The run context (auto-injected).
 
         Returns:
             JSON list of user memories.
@@ -152,7 +150,6 @@ class MemoryTools(Toolkit):
         """Add a new memory to the database.
 
         Args:
-            run_context: The run context (auto-injected).
             memory: The memory content to store.
             topics: Optional list of topics for categorization.
 
@@ -213,7 +210,6 @@ class MemoryTools(Toolkit):
         """Update an existing memory in the database.
 
         Args:
-            run_context: The run context (auto-injected).
             memory_id: The ID of the memory to update.
             memory: Updated memory content (if provided).
             topics: Updated list of topics (if provided).
@@ -278,7 +274,6 @@ class MemoryTools(Toolkit):
         """Delete a memory from the database.
 
         Args:
-            run_context: The run context (auto-injected).
             memory_id: The ID of the memory to delete.
 
         Returns:
@@ -333,7 +328,6 @@ class MemoryTools(Toolkit):
         """Evaluate memory operations results for correctness and sufficiency.
 
         Args:
-            run_context: The run context (auto-injected).
             analysis: Your analysis of the memory operations results.
 
         Returns:
