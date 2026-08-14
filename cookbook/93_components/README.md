@@ -240,7 +240,7 @@ Some components cannot be serialized to JSON (tools, custom functions, Pydantic 
 
 ```python
 from agno.registry import Registry
-from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.websearch import WebSearchTools
 from agno.models.openai import OpenAIChat
 from pydantic import BaseModel
 
@@ -259,7 +259,7 @@ class OutputSchema(BaseModel):
 # Create registry with all non-serializable components
 registry = Registry(
     name="My Registry",
-    tools=[DuckDuckGoTools(), my_custom_tool],
+    tools=[WebSearchTools(backend="duckduckgo"), my_custom_tool],
     models=[OpenAIChat(id="gpt-4o-mini")],
     schemas=[InputSchema, OutputSchema],
 )

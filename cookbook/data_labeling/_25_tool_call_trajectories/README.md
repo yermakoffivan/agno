@@ -11,7 +11,7 @@ temperature-0 judge deciding which rollouts are good enough to keep.
 ## Files
 
 - `basic.py` - schema-validated (query, tool call) pairs. Pulls the real
-  JSON schema of every CalculatorTools and DuckDuckGoTools function
+  JSON schema of every CalculatorTools and WebSearchTools function
   (via `Function.process_entrypoint()`), a generator agent writes 8
   candidate pairs against them, and a stdlib validator checks each pair:
   known tool, parseable JSON arguments, all required params present, no

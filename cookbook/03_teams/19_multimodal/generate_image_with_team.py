@@ -2,7 +2,7 @@
 Generate Image With Team
 ========================
 
-Demonstrates collaborative prompt optimization and DALL-E image generation.
+Demonstrates collaborative prompt optimization and OpenAI image generation.
 """
 
 from typing import Iterator
@@ -10,7 +10,7 @@ from typing import Iterator
 from agno.agent import Agent, RunOutputEvent
 from agno.models.openai import OpenAIResponses
 from agno.team import Team
-from agno.tools.dalle import DalleTools
+from agno.tools.models.openai import OpenAITools
 from agno.utils.common import dataclass_to_dict
 from rich.pretty import pprint
 
@@ -19,11 +19,13 @@ from rich.pretty import pprint
 # ---------------------------------------------------------------------------
 image_generator = Agent(
     name="Image Creator",
-    role="Generate images using DALL-E",
+    role="Generate images using OpenAI's image models",
     model=OpenAIResponses(id="gpt-5.2"),
-    tools=[DalleTools()],
+    tools=[
+        OpenAITools(generate_image=True, transcribe_audio=False, generate_speech=False)
+    ],
     instructions=[
-        "Use the DALL-E tool to create high-quality images",
+        "Use the openai_generate_image tool to create high-quality images",
         "Return image URLs in markdown format: `![description](URL)`",
     ],
 )
@@ -48,7 +50,7 @@ image_team = Team(
     instructions=[
         "Generate high-quality images from user prompts.",
         "Prompt Engineer: First enhance and optimize the user's prompt.",
-        "Image Creator: Generate images using the enhanced prompt with DALL-E.",
+        "Image Creator: Generate images using the enhanced prompt.",
     ],
     markdown=True,
 )

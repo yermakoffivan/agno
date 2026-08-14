@@ -1,11 +1,11 @@
 import pytest
-from agno.tools.dalle import DalleTools
 
 from agno.agent.agent import Agent
 from agno.db.base import SessionType
 from agno.db.in_memory.in_memory_db import InMemoryDb
 from agno.media import Audio, Image
 from agno.models.openai.chat import OpenAIChat
+from agno.tools.models.openai import OpenAITools
 
 # Provider-availability failures (model brownouts/retirement windows, billing,
 # quota, auth) say nothing about our code and must not red the build. Contract
@@ -29,12 +29,12 @@ def skip_if_provider_unavailable(response) -> None:
 
 @pytest.fixture
 def openai_agent():
-    """Create an agent with OpenAI model and DALL-E tools."""
-    return Agent(model=OpenAIChat(id="gpt-4o-mini"), db=InMemoryDb(), tools=[DalleTools()])
+    """Create an agent with OpenAI model and OpenAI media tools."""
+    return Agent(model=OpenAIChat(id="gpt-4o-mini"), db=InMemoryDb(), tools=[OpenAITools(generate_image=True)])
 
 
-def test_dalle_image_generation_in_run_output(openai_agent):
-    """Test that DALL-E generated images appear in RunOutput."""
+def test_image_generation_in_run_output(openai_agent):
+    """Test that generated images appear in RunOutput."""
     # Run agent with image generation request
     response = openai_agent.run("Generate a simple image of a red apple on white background")
     skip_if_provider_unavailable(response)
@@ -55,7 +55,7 @@ def test_dalle_image_generation_in_run_output(openai_agent):
     assert last_output.images[0].id == response.images[0].id
 
 
-def test_dalle_image_generation_persistence(openai_agent):
+def test_image_generation_persistence(openai_agent):
     """Test that generated images persist in database."""
     # Run agent with image generation request
     response = openai_agent.run("Generate a simple image of a blue circle")
@@ -162,7 +162,7 @@ def test_openai_speech_generation_in_run_output(openai_agent):
 
 def test_media_persistence_across_runs(shared_db):
     """Test that media persists correctly across multiple runs."""
-    agent = Agent(model=OpenAIChat(id="gpt-4o-mini"), db=shared_db, tools=[DalleTools()])
+    agent = Agent(model=OpenAIChat(id="gpt-4o-mini"), db=shared_db, tools=[OpenAITools(generate_image=True)])
 
     # First run: Generate image
     response1 = agent.run("Generate an image of a sunset")

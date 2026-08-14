@@ -6,7 +6,7 @@ Tested 2026-07-18 against `gemini-3.5-flash`, agno 2.7.4.
 
 **Status:** PASS
 
-**Description:** Schema-validated (query, tool call) pairs. Pulls the real JSON schemas of all 8 CalculatorTools functions and both DuckDuckGoTools functions via Function.process_entrypoint(), feeds the 10 schemas to a generator agent that writes 8 candidate pairs, then validates each pair in pure code against the real schema (known tool, JSON-parseable arguments, required params present, no unknown params, primitive types match). Valid rows go to data/generated/tool_call_sft.jsonl with schema_source provenance.
+**Description:** Schema-validated (query, tool call) pairs. Pulls the real JSON schemas of all 8 CalculatorTools functions and both WebSearchTools functions via Function.process_entrypoint(), feeds the 10 schemas to a generator agent that writes 8 candidate pairs, then validates each pair in pure code against the real schema (known tool, JSON-parseable arguments, required params present, no unknown params, primitive types match). Valid rows go to data/generated/tool_call_sft.jsonl with schema_source provenance.
 
 **Result:** Summary line: "wrote 8 rows ... kept 8, dropped 0". All 8 candidates passed validation in both runs today; the model reliably emits schema-exact arguments for these simple schemas (numbers as JSON numbers, integers for factorial/is_prime, optional max_results only when the query asks for it). The validator did not fire this run; kept/dropped can vary run to run.
 
