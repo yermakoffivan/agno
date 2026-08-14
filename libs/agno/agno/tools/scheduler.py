@@ -30,8 +30,10 @@ from agno.utils.log import log_debug, log_exception
 class SchedulerTools(Toolkit):
     """Toolkit that lets an agent create and manage recurring schedules.
 
-    The agent can ask a user "what should I do every day?" and then call
-    ``create_schedule`` to set up a cron-based recurring execution via the
+    By default only the read-only tools (list_schedules, get_schedule,
+    get_schedule_runs) are enabled. Schedule creation is opt-in: pass
+    ``create_schedule=True`` (or ``all=True``) to let the agent call
+    ``create_schedule`` and set up cron-based recurring executions via the
     existing AgentOS scheduler infrastructure.
     """
 
@@ -49,7 +51,7 @@ class SchedulerTools(Toolkit):
         enable_schedule: bool = False,
         disable_schedule: bool = False,
         trigger_schedule: bool = False,
-        get_schedule_runs: bool = False,
+        get_schedule_runs: bool = True,
         all: bool = False,
         **kwargs: Any,
     ):
@@ -68,7 +70,7 @@ class SchedulerTools(Toolkit):
             enable_schedule: Enable the enable_schedule tool.
             disable_schedule: Enable the disable_schedule tool.
             trigger_schedule: Enable the trigger_schedule tool.
-            get_schedule_runs: Enable the get_schedule_runs tool.
+            get_schedule_runs: Enable the get_schedule_runs tool. Defaults to True.
             all: Enable all tools.
         """
         self.manager = ScheduleManager(db=db)
