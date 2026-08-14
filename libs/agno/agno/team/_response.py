@@ -895,8 +895,8 @@ def update_reasoning_content_from_tool_call(
         append_to_reasoning_content(run_response, formatted_content)
         return reasoning_step
 
-    # Case 3: ReasoningTool.think (simple format, just has 'thought')
-    elif tool_name.lower() == "think" and "thought" in tool_args:
+    # Case 3: simple think format, just has 'thought' (e.g. MemoryTools.think_memory)
+    elif tool_name.lower() in ("think", "think_memory") and "thought" in tool_args:
         thought = tool_args["thought"]
         reasoning_step = ReasoningStep(
             title="Thinking",
@@ -907,6 +907,22 @@ def update_reasoning_content_from_tool_call(
             confidence=None,
         )
         formatted_content = f"## Thinking\n{thought}\n\n"
+        add_reasoning_step_to_metadata(run_response, reasoning_step)
+        append_to_reasoning_content(run_response, formatted_content)
+        return reasoning_step
+
+    # Case 4: simple analyze format, just has 'analysis' (e.g. MemoryTools.analyze_memory)
+    elif tool_name.lower() in ("analyze", "analyze_memory") and "analysis" in tool_args:
+        analysis = tool_args["analysis"]
+        reasoning_step = ReasoningStep(
+            title="Analyzing",
+            action=None,
+            result=None,
+            reasoning=analysis,
+            next_action=None,
+            confidence=None,
+        )
+        formatted_content = f"## Analyzing\n{analysis}\n\n"
         add_reasoning_step_to_metadata(run_response, reasoning_step)
         append_to_reasoning_content(run_response, formatted_content)
         return reasoning_step
@@ -993,7 +1009,7 @@ def _update_run_response(
     if model_response.tool_executions:
         for tool_call in model_response.tool_executions:
             tool_name = tool_call.tool_name
-            if tool_name and tool_name.lower() in ["think", "analyze"]:
+            if tool_name and tool_name.lower() in ["think", "analyze", "think_memory", "analyze_memory"]:
                 tool_args = tool_call.tool_args or {}
                 update_reasoning_content_from_tool_call(team, run_response, tool_name, tool_args)
 
@@ -1621,7 +1637,7 @@ def _handle_model_response_chunk(
                 # Only iterate through new tool calls
                 for tool_call in tool_executions_list:
                     tool_name = tool_call.tool_name or ""
-                    if tool_name.lower() in ["think", "analyze"]:
+                    if tool_name.lower() in ["think", "analyze", "think_memory", "analyze_memory"]:
                         tool_args = tool_call.tool_args or {}
 
                         reasoning_step = update_reasoning_content_from_tool_call(

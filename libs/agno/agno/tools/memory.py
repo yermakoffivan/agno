@@ -368,7 +368,7 @@ class MemoryTools(Toolkit):
 
         1. **Think**
         - Purpose: A scratchpad for planning memory operations, brainstorming memory content, and refining your approach. You never reveal your "Think" content to the user.
-        - Usage: Call `think` whenever you need to figure out what memory operations to perform, analyze requirements, or decide on strategy.
+        - Usage: Call `think_memory` whenever you need to figure out what memory operations to perform, analyze requirements, or decide on strategy.
 
         2. **Get Memories**
         - Purpose: Retrieves a list of memories from the database for the current user.
@@ -388,7 +388,7 @@ class MemoryTools(Toolkit):
 
         6. **Analyze**
         - Purpose: Evaluate whether the memory operations results are correct and sufficient. If not, go back to "Think" or use memory operations with refined parameters.
-        - Usage: Call `analyze` after performing memory operations to verify:
+        - Usage: Call `analyze_memory` after performing memory operations to verify:
             - Success: Did the operation complete successfully?
             - Accuracy: Is the memory content correct and well-formed?
             - Completeness: Are all required fields populated appropriately?
