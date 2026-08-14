@@ -14,10 +14,19 @@ class AWSLambdaTools(Toolkit):
         self,
         region_name: str = "us-east-1",
         list_functions: bool = True,
-        invoke_function: bool = True,
+        invoke_function: bool = False,
         all: bool = False,
         **kwargs,
     ):
+        """Initialize AWS Lambda toolkit.
+
+        Args:
+            region_name: AWS region name. Defaults to "us-east-1".
+            list_functions: Enable the list_functions tool. Defaults to True.
+            invoke_function: Enable the invoke_function tool. Defaults to False
+                (executes remote code).
+            all: Enable all tools.
+        """
         self.client = boto3.client("lambda", region_name=region_name)
 
         tools: List[Callable] = []

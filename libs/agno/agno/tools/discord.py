@@ -14,14 +14,27 @@ class DiscordTools(Toolkit):
     def __init__(
         self,
         bot_token: Optional[str] = None,
-        send_message: bool = True,
+        send_message: bool = False,
         get_channel_messages: bool = True,
         get_channel_info: bool = True,
         list_channels: bool = True,
-        delete_message: bool = True,
+        delete_message: bool = False,
         all: bool = False,
         **kwargs,
     ):
+        """Initialize Discord toolkit.
+
+        Args:
+            bot_token: Discord bot token. Falls back to DISCORD_BOT_TOKEN env var.
+            send_message: Enable the send_discord_message tool. Defaults to False
+                (sends messages on the user's behalf).
+            get_channel_messages: Enable the get_discord_channel_messages tool. Defaults to True.
+            get_channel_info: Enable the get_discord_channel_info tool. Defaults to True.
+            list_channels: Enable the list_discord_channels tool. Defaults to True.
+            delete_message: Enable the delete_discord_message tool. Defaults to False
+                (destructive).
+            all: Enable all tools.
+        """
         self.bot_token = bot_token or getenv("DISCORD_BOT_TOKEN")
         if not self.bot_token:
             log_error("Discord bot token is required")
