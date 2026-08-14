@@ -31,7 +31,7 @@ class AgentQLTools(Toolkit):
         if all or scrape_website:
             tools.append(self.agentql_scrape_website)
         if all or custom_scrape_website or agentql_query:
-            tools.append(self.custom_scrape_website)
+            tools.append(self.agentql_custom_scrape_website)
 
         super().__init__(name="agentql_tools", tools=tools, **kwargs)
 
@@ -65,7 +65,7 @@ class AgentQLTools(Toolkit):
         except Exception as e:
             return json.dumps({"error": f"Failed to scrape: {e}"})
 
-    def custom_scrape_website(self, url: str) -> str:
+    def agentql_custom_scrape_website(self, url: str) -> str:
         """Scrape a website using a custom AgentQL query.
 
         Args:

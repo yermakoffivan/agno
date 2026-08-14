@@ -65,7 +65,7 @@ class ElevenLabsTools(Toolkit):
         if all or get_voices:
             tools.append(self.elevenlabs_get_voices)
         if all or generate_sound_effect:
-            tools.append(self.generate_sound_effect)
+            tools.append(self.elevenlabs_generate_sound_effect)
         if all or text_to_speech:
             tools.append(self.elevenlabs_text_to_speech)
 
@@ -127,7 +127,7 @@ class ElevenLabsTools(Toolkit):
 
         return audio_data
 
-    def generate_sound_effect(self, prompt: str, duration_seconds: Optional[float] = None) -> ToolResult:
+    def elevenlabs_generate_sound_effect(self, prompt: str, duration_seconds: Optional[float] = None) -> ToolResult:
         """Generate a sound effect from a text description.
 
         Args:
